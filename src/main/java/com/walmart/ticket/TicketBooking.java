@@ -1,5 +1,6 @@
 package com.walmart.ticket;
 
+import com.walmart.ticket.exception.BestSeatNotFoundException;
 import com.walmart.ticket.exception.ReservationNotValidException;
 import com.walmart.ticket.exception.SeatHoldNotFoundException;
 import com.walmart.ticket.repository.TicketRepository;
@@ -51,15 +52,20 @@ public class TicketBooking implements TicketService {
     public SeatHold findAndHoldSeats(int numSeats, String customerEmail) {
 
         int availableTicket = numSeatsAvailable();
+
+        if ( numSeats < 0 ) {
+            throw new BestSeatNotFoundException("numSeats " + numSeats + " should be positive number");
+        }
+
         if (availableTicket < numSeats) {
-            return null;
+            throw new BestSeatNotFoundException("Seats larger than  " + numSeats + " are not found");
         }
 
         List<Seat> bestSeats =  new ArrayList<Seat>();
         bestSeats = ticketRepo.findBestSeat(numSeats);
 
-        if ((bestSeats==null) || bestSeats.isEmpty())
-             return null;
+        if ((bestSeats== null) || bestSeats.isEmpty())
+            throw new BestSeatNotFoundException("Seats larger than " + numSeats + " are not found");
 
         //Use first seat to generate the seatHold id;
         Seat oneSeat = bestSeats.get(0);

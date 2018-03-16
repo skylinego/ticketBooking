@@ -148,7 +148,6 @@ public class TicketRepositoryImpl implements com.walmart.ticket.repository.Ticke
         count=0;
         for(Map.Entry<Double,Seat> entry : seatAvailable.entrySet()) {
             Double key = entry.getKey();
-            //Seat seat = entry.getValue();
             seatAvailable.remove(key);
             count++;
             if (count ==seatNum) {

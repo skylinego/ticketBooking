@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.walmart.ticket.exception.SeatHoldNotFoundException;
 import com.walmart.ticket.exception.ReservationNotValidException;
+import com.walmart.ticket.exception.BestSeatNotFoundException;
 
 
 public class TicketBookingTest {
@@ -77,10 +78,21 @@ public class TicketBookingTest {
     LOGGER.info("code is " + code);
     LOGGER.info("After available seat is " + ticketSystem.numSeatsAvailable());
     System.out.println("code is " + code);
-    //waitForExpirationTimeToComplete();
     System.out.println("Final available seat is " + ticketSystem.numSeatsAvailable());
 
   }
+
+  @Test(expected = BestSeatNotFoundException.class)
+  public void testfindAndHoldSeatsLimit() throws Exception {
+
+    String funcName = new Object(){}.getClass().getEnclosingMethod().getName();
+
+    printTestHeader(funcName);
+
+    common.entity.SeatHold seatHold = ticketSystem.findAndHoldSeats(2*rowNum*seatsInRow, "customer@test.com");
+
+  }
+
 
   @Test
   public void testfindAndHoldSeats() throws Exception {
