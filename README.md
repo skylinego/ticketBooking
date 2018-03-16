@@ -7,9 +7,9 @@ This project is developed by using Java, jdbm2, Maven.
 ---
 1. Users are provided seats based on the availability.
 2. The algorithm to find the best seats are: the closer the distance from seat to the center of venue, the better the seat. 
-3. Hold time for the seats is 30 seconds. If the user doesn't reserve the seats before 30 seconds, then the holds are removed and user has to send a request again to hold the seats.
-4. Jdbm2 (https://code.google.com/archive/p/jdbm2/) is used to store the ticket booking information such as available seats, seathold and on disk.
-5. REST API can be provided by using PlayFramework. (Not implemented this time).
+3. Hold time for the seats is 30 seconds. If the user doesn't reserve the seats before 30 seconds, the holds are removed and user has to send a request again to hold the seats.
+4. Jdbm2 (https://code.google.com/archive/p/jdbm2/) is used to store the ticket booking information such as available seats, seathold and reservation on disk.
+5. REST API can be provided by using PlayFramework or other framework. (Not implemented now).
 
 ### Building Project
 ---
