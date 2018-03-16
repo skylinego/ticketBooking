@@ -19,7 +19,8 @@ import java.util.UUID;
  */
 public class TicketBooking implements TicketService {
 
-    private static final int rowOffset = 1000;
+    //This property is used to decide the seathold id range.
+    private static final int holdRange = 100000;
 
     private static final Logger LOGGER = LogManager.getLogger(TicketBooking.class);
 
@@ -36,6 +37,8 @@ public class TicketBooking implements TicketService {
      */
     @Override
     public int numSeatsAvailable() {
+
+        //First check whether there is any expired hold;
         ticketRepo.checkHoldExpire();
 
         return ticketRepo.findAvailableSeatNum();
@@ -67,13 +70,10 @@ public class TicketBooking implements TicketService {
         if ((bestSeats== null) || bestSeats.isEmpty())
             throw new BestSeatNotFoundException("Seats larger than " + numSeats + " are not found");
 
-        //Use first seat to generate the seatHold id;
-        Seat oneSeat = bestSeats.get(0);
-
         SeatHold seatHold = new SeatHold();
         seatHold.setHoldTime(System.currentTimeMillis());
         seatHold.setSeatBookings(bestSeats);
-        seatHold.setId(oneSeat.getRowNum()*rowOffset + oneSeat.getColNum());
+        seatHold.setId((int)Math.random()*holdRange);
         seatHold.setCustomerEmail(customerEmail);
 
         //Add the hold to the holdMap
@@ -102,7 +102,7 @@ public class TicketBooking implements TicketService {
             }
 
             if (seatHold.getHoldTime() < System.currentTimeMillis() - ticketRepo.getExpireSeconds() * 1000) {
-                    throw new ReservationNotValidException("SeatHold with" + seatHold + " is expired");
+                    throw new ReservationNotValidException("SeatHold with " + seatHold + " is expired");
             }
 
             String bookingCode = UUID.randomUUID().toString();
@@ -113,7 +113,7 @@ public class TicketBooking implements TicketService {
 
             return bookingCode;
         } else {
-            throw new SeatHoldNotFoundException("Seathold with" + seatHoldId + " not found");
+            throw new SeatHoldNotFoundException("Seathold with " + seatHoldId + " not found");
         }
 
     }
