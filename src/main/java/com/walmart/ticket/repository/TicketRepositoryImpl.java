@@ -132,7 +132,7 @@ public class TicketRepositoryImpl implements com.walmart.ticket.repository.Ticke
         /*
          Here how to find the best seats is implemented by using acsending order Treemap (object: seatAvailable). As treeMap is
          ordered map by key. The lower value of the key, the better the seat. Please refer the getDistance function in this class.
-         After understanind this, the first 'seatNum' elements in seatAvailable will be the best 'seatNum' seat.
+         After understanding this, the first 'seatNum' elements in seatAvailable will be the best 'seatNum' seat.
         */
 
         Set set = seatAvailable.entrySet();
